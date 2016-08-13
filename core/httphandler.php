@@ -7,19 +7,16 @@
 */
 
 print_r($_SERVER);
-require_once("logger.php");
 
 
-class HttpHandler {
+
+class HttpHandler extends Logger {
 
     private $cRequesttype;
     private $cRoute;
     private $cRemoteip;
     private $cOrigin;
     private $cContenttype;
-
-    //External objects
-    private $oLogger;
 
     public function __construct() {
         $this->cRequesttype = $_SERVER['REQUEST_METHOD'];
@@ -30,7 +27,7 @@ class HttpHandler {
         $this->cAllowedContenttype = "application/json"; //Default to json, most folks will be using this
         $this->cAllowedOrigin = "*"; //Default to all
         $this->cRequestbody = file_get_contents("php://input"); //Read request body buffer
-        $this->oLogger = new Logger();
+
     }
     public function setAllowedContentType($cContenttype = "application/json") { //Default to json
         $this->cAllowedContenttype = $cContenttype;
@@ -43,7 +40,7 @@ class HttpHandler {
             $aError = array(
                 "error" => "The content type you used was not authorized you used {$this->cContenttype}"
             );
-            $this->oLogger->log(json_encode($aError),BROWSER);
+            $this->log(json_encode($aError),BROWSER);
             return;
         }
         //Check the origin which the data is coming from
@@ -51,7 +48,7 @@ class HttpHandler {
             $aError = array(
                 "error" => "The origin you used was not authorized you used {$this->cOrigin}"
             );
-            $this->oLogger->log(json_encode($aError),BROWSER);
+            $this->log(json_encode($aError),BROWSER);
             return;
         }
         //We passed some of the tests so lets evaluate the route and request type

@@ -16,9 +16,9 @@ $oCore = new Core(); //Allows us to load models and other things
 
 
 if($oHttphandler->evaluate("GET", "/user/:id")) { //Build your code here
-    $oCore->loadModel("users");
+    $oCore->loadModel("user");
     $oUser = $oHttphandler->convertRequestBodyToJson();
-    $oCore->render($oCore->users->getuser($oUser->id),"json");
+    $oCore->render($oCore->user->get($oUser->id),"json");
 }
 
 ?>

@@ -5,6 +5,7 @@
 @date 13 August 2016
 @author Gerome Guilfoyle
 */
+require_once("core/logger.php");
 require_once("core/core.php"); //The core modules which drives the framework
 
 
